@@ -1,8 +1,8 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load(
-  "@rules_verilator//verilator/internal:versions.bzl",
-  _DEFAULT_VERSION = "DEFAULT_VERSION",
-  _version_info = "version_info"
+    "@rules_verilator//verilator/internal:versions.bzl",
+    _DEFAULT_VERSION = "DEFAULT_VERSION",
+    _version_info = "version_info",
 )
 
 def _verilator_repository(ctx):

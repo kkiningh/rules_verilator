@@ -3,21 +3,21 @@ TOOLCHAIN_TYPE = "@rules_verilator//verilator:toolchain_type"
 ToolchainInfo = provider(fields = ["files", "libs", "vars", "verilator_executable"])
 
 def _verilator_toolchain_info(ctx):
-  runfiles = ctx.attr.verilator[DefaultInfo].default_runfiles.files
-  toolchain = ToolchainInfo(
-      files = depset(
-          direct = [ctx.executable.verilator],
-          transitive = [runfiles],
-      ),
-      libs = ctx.attr.libs,
-      vars = {},
-      verilator_executable = ctx.executable.verilator,
-  )
+    runfiles = ctx.attr.verilator[DefaultInfo].default_runfiles.files
+    toolchain = ToolchainInfo(
+        files = depset(
+            direct = [ctx.executable.verilator],
+            transitive = [runfiles],
+        ),
+        libs = ctx.attr.libs,
+        vars = {},
+        verilator_executable = ctx.executable.verilator,
+    )
 
-  return [
-      platform_common.ToolchainInfo(verilator_toolchain = toolchain),
-      platform_common.TemplateVariableInfo(toolchain.vars),
-  ]
+    return [
+        platform_common.ToolchainInfo(verilator_toolchain = toolchain),
+        platform_common.TemplateVariableInfo(toolchain.vars),
+    ]
 
 verilator_toolchain_info = rule(
     _verilator_toolchain_info,
@@ -54,8 +54,8 @@ verilator_toolchain_alias = rule(
     _verilator_toolchain_alias,
     toolchains = [TOOLCHAIN_TYPE],
     provides = [
-				DefaultInfo,
-				ToolchainInfo,
-				platform_common.TemplateVariableInfo,
+        DefaultInfo,
+        ToolchainInfo,
+        platform_common.TemplateVariableInfo,
     ],
 )

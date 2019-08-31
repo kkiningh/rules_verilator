@@ -75,6 +75,7 @@ def _copy_tree(ctx, idir, odir, map_each = None, progress_message = None):
 
 def _verilator_cc_library(ctx):
     """Produce a static library and C++ header files from a Verilog library"""
+
     # Get the verilator toolchain
     verilator_toolchain = ctx.toolchains[_TOOLCHAIN_TYPE].verilator_toolchain
 
