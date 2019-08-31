@@ -38,7 +38,7 @@ The rules also depend on the experimental C++ skylark API, which can be enabled 
 build --experimental_cc_skylark_api_enabled_packages=@rules_verilator//verilator/internal
 ```
 
-## Example
+## Build rules
 
 ```python
 load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
@@ -56,7 +56,7 @@ cc_binary(
 )
 ```
 
-Verilog libraries can also be specifed
+Verilog libraries can also be specifed as dependencies
 
 ```python
 load("@rules_verilator//verilator:defs.bzl", "sv_library", "verilator_cc_library")
@@ -72,3 +72,7 @@ verilator_cc_library(
     deps = [":alu_lib"],
 )
 ```
+
+## License
+
+Released under Apache 2.0.
