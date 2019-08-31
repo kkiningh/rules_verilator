@@ -10,7 +10,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Verilator
 http_archive(
     name = "rules_verilator",
-    # ...
+    # See release page for latest urls + sha
 )
 
 load(
