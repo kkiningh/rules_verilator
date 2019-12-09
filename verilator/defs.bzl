@@ -91,8 +91,11 @@ def _verilator_cc_library(ctx):
     cflags  = ctx.attr.cflags 
     ldflags = ctx.attr.ldflags
 
+    if ctx.attr.prefix != "V":
+        prefix = ctx.attr.prefix 
+    else:
+        prefix = ctx.attr.prefix + ctx.attr.mtop
 
-    prefix = ctx.attr.prefix + ctx.attr.mtop
 
     # Output directories/files
     verilator_output = ctx.actions.declare_directory(prefix + "-gen")
