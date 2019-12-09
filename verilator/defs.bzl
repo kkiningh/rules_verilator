@@ -87,6 +87,11 @@ def _verilator_cc_library(ctx):
 
     # Default Verilator output prefix (e.g. "Vtop")
     mtop = ctx.label.name if ctx.attr.mtop == None else ctx.attr.mtop
+
+    cflags  = ctx.attr.cflags 
+    ldflags = ctx.attr.ldflags
+
+
     prefix = ctx.attr.prefix + ctx.attr.mtop
 
     # Output directories/files
@@ -105,6 +110,10 @@ def _verilator_cc_library(ctx):
     args.add("--top-module", mtop)
     if ctx.attr.trace:
         args.add("--trace")
+    if ctx.attr.cflags:
+        args.add_all(cflags,  before_each="-CFLAGS")
+    if ctx.attr.ldflags:
+        args.add_all(ldflags, before_each="-LDFLAGS")
     args.add_all(srcs)
     args.add_all(ctx.attr.vopts, expand_directories = False)
     ctx.actions.run(
@@ -176,6 +185,14 @@ verilator_cc_library = rule(
         "prefix": attr.string(
             doc = "Prefix for generated C++ headers and classes",
             default = "V",
+        ),
+        "cflags": attr.string_list(
+            doc = "C flags for the compiled verilated library",
+            mandatory = False
+        ),
+        "ldflags": attr.string_list(
+            doc = "LD flags for the compiled verilated library",
+            mandatory = False
         ),
         "sysc": attr.bool(
             doc = "Generate SystemC using the --sc Verilator option",
