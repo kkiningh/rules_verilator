@@ -81,7 +81,7 @@ def _verilator_cc_library(ctx):
 
     # Gather all the Verilog source files, including transitive dependencies
     srcs = get_transitive_sources(
-        ctx.files.srcs + ctx.files.hdrs,
+        ctx.files.hdrs  + ctx.files.srcs,
         ctx.attr.deps,
     )
 
@@ -175,7 +175,7 @@ verilator_cc_library = rule(
         ),
         "hdrs": attr.label_list(
             doc = "List of verilog header files",
-            allow_files = [".v", ".sv", ".vh", ".svh"],
+            allow_files = [".v", ".sv", ".vh", ".svh", ".h"],
         ),
         "deps": attr.label_list(
             doc = "List of verilog and C++ dependencies",
