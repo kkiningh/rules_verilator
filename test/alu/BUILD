@@ -9,7 +9,8 @@ verilator_cc_library(
     name = "alu",
     mtop = "alu",
     srcs = ["alu.sv"],
-    includes = ["-I."]
+    hdrs = glob(["includes/*.svh"]),
+    includes = ["test/alu/includes"],
     #deps = [":alu_lib"],
 )
 

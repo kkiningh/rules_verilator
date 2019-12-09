@@ -109,7 +109,7 @@ def _verilator_cc_library(ctx):
     args.add("--prefix", prefix)
     args.add("--top-module", mtop)
     if ctx.attr.includes:
-        args.add(" -I".join(ctx.attr.includes))
+        args.add("-I" + " -I".join(ctx.attr.includes))
     if ctx.attr.trace:
         args.add("--trace")
     if ctx.attr.cflags:
