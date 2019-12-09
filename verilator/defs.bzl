@@ -108,6 +108,8 @@ def _verilator_cc_library(ctx):
     args.add("--Mdir", verilator_output.path)
     args.add("--prefix", prefix)
     args.add("--top-module", mtop)
+    if ctx.attr.includes:
+        args.add(" -I".join(ctx.attr.includes))
     if ctx.attr.trace:
         args.add("--trace")
     if ctx.attr.cflags:
@@ -116,6 +118,7 @@ def _verilator_cc_library(ctx):
         args.add_all(ldflags, before_each="-LDFLAGS")
     args.add_all(srcs)
     args.add_all(ctx.attr.vopts, expand_directories = False)
+    print(args)
     ctx.actions.run(
         arguments = [args],
         executable = verilator_toolchain.verilator_executable,
@@ -178,6 +181,10 @@ verilator_cc_library = rule(
             doc = "Top level module. Defaults to the rule name if not specified",
             mandatory = False,
         ),
+        "includes": attr.string_list(
+            doc = "Include paths for verilator",
+            mandatory = False,
+         ),
         "trace": attr.bool(
             doc = "Enable tracing for Verilator",
             default = False,

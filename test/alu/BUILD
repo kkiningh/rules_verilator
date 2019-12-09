@@ -8,7 +8,9 @@ sv_library(
 verilator_cc_library(
     name = "alu",
     mtop = "alu",
-    deps = [":alu_lib"],
+    srcs = ["alu.sv"],
+    includes = ["-I."]
+    #deps = [":alu_lib"],
 )
 
 cc_binary(
