@@ -72,7 +72,7 @@ def local_rules_verilator_toolchains(path = ""):
     repo_name = "verilator_v{version}".format(version = "local")
     native. new_local_repository(
         name = "verilator_v{version}".format(version = "local"),
-        path = "temp/verilator",
+        path = path,
         build_file = "@rules_verilator//verilator/internal:verilator.BUILD"
 )  
     native.register_toolchains("@rules_verilator//verilator/toolchains:v{}".format("local"))
