@@ -80,10 +80,17 @@ def _verilator_cc_library(ctx):
     verilator_toolchain = ctx.toolchains[_TOOLCHAIN_TYPE].verilator_toolchain
 
     # Gather all the Verilog source files, including transitive dependencies
-    srcs = get_transitive_sources(
+    inputs = get_transitive_sources(
         ctx.files.hdrs  + ctx.files.srcs,
         ctx.attr.deps,
     )
+    srcs = get_transitive_sources(
+        ctx.files.srcs,
+        ctx.attr.deps,
+    )
+
+
+
 
     # Default Verilator output prefix (e.g. "Vtop")
     mtop = ctx.label.name if ctx.attr.mtop == None else ctx.attr.mtop
@@ -125,7 +132,7 @@ def _verilator_cc_library(ctx):
     ctx.actions.run(
         arguments = [args],
         executable = verilator_toolchain.verilator_executable,
-        inputs = srcs,
+        inputs = inputs,
         outputs = [verilator_output],
         progress_message = "[Verilator] Compiling {}".format(ctx.label),
     )
