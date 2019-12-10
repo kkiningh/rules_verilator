@@ -128,7 +128,6 @@ def _verilator_cc_library(ctx):
         args.add_all(ldflags, before_each="-LDFLAGS")
     args.add_all(srcs)
     args.add_all(ctx.attr.vopts, expand_directories = False)
-    print(args)
     ctx.actions.run(
         arguments = [args],
         executable = verilator_toolchain.verilator_executable,
@@ -161,6 +160,7 @@ def _verilator_cc_library(ctx):
     # Do actual compile
     defines = ["VM_TRACE"] if ctx.attr.trace else []
     deps = list(verilator_toolchain.libs)
+    print(deps)
     #if ctx.attr.sysc:
     #    deps.append(ctx.attr._systemc)
 

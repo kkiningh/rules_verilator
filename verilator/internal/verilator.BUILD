@@ -181,6 +181,7 @@ cc_library(
         "include/verilated_imp.h",
         "include/verilated_syms.h",
         "include/verilated_vcd_c.cpp",
+        "include/verilated_cov.cpp"
     ],
     hdrs = [
         "include/verilated_config.h",
@@ -192,6 +193,7 @@ cc_library(
         "include/verilated_sym_props.h",
         "include/verilated_vcd_c.h",
         "include/verilatedos.h",
+        "include/verilated_cov.h"
     ],
     strip_include_prefix = "include/",
     visibility = ["//visibility:public"],
@@ -207,6 +209,7 @@ cc_library(
     name = "svdpi",
     hdrs = [
         "include/vltstd/svdpi.h",
+        "include/vltstd/vpi_user.h"
     ],
     strip_include_prefix = "include/vltstd",
     visibility = ["//visibility:public"],
