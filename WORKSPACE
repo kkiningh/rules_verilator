@@ -4,13 +4,14 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load(
     "@rules_verilator//verilator:repositories.bzl",
     "rules_verilator_dependencies",
-    "rules_verilator_toolchains",
+    "local_rules_verilator_toolchains",
+    "rules_verilator_toolchains"
 )
 
 rules_verilator_dependencies()
 
+#local_rules_verilator_toolchains(path="temp/verilator")
 rules_verilator_toolchains()
-
 load("@rules_m4//m4:m4.bzl", "m4_register_toolchains")
 
 m4_register_toolchains()

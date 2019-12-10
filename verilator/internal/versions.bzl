@@ -14,10 +14,14 @@ def _info(version, sha256):
         urls = _urls("verilator-{}.tgz".format(version)),
     ))
 
+
+
+
 VERSION_INFO = dict([
     _info("4.018", "98d52ec125d21b452a8b0bfddf336d8f792a53449db26798978f47885a430346"),
     _info("4.016", ""),
     _info("4.014", ""),
+    _info("local",""),
 ])
 
 DEFAULT_VERSION = "4.018"

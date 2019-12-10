@@ -21,6 +21,17 @@ def _verilator_repository(ctx):
     # for other platforms.
     ctx.template("src/config_build.h", "src/config_build.h.in", {}, executable = False)
 
+def _local_verilator_repository(ctx):
+    ctx.file("WORKSPACE", "workspace(name = {name})\n".format(name = repr(ctx.name)))
+    ctx.symlink(ctx.attr.path, "verilator")
+    ctx.symlink(ctx.attr._buildfile, "BUILD")
+    # Patch the repository so we have the correct settings
+    # TODO: At least on OSX the default settings work. May need to change this
+    # for other platforms.
+    ctx.template("src/config_build.h", "src/config_build.h.in", {}, executable = False)
+
+
+
 verilator_repository = repository_rule(
     _verilator_repository,
     attrs = {
@@ -30,6 +41,9 @@ verilator_repository = repository_rule(
         ),
     },
 )
+
+
+
 
 def rules_verilator_dependencies(version = _DEFAULT_VERSION):
     _maybe(
@@ -50,6 +64,19 @@ def rules_verilator_dependencies(version = _DEFAULT_VERSION):
         urls = ["https://github.com/jmillikin/rules_bison/releases/download/v0.1/rules_bison-v0.1.tar.xz"],
         sha256 = "5c57552a129b0d8eeb9252341ee975ec2720c35baf2f0d154756310c1ff572a0",
     )
+
+
+def local_rules_verilator_toolchains(path = ""):
+    if path == "":
+      fail("No path to local verilator provided!")
+    repo_name = "verilator_v{version}".format(version = "local")
+    native. new_local_repository(
+        name = "verilator_v{version}".format(version = "local"),
+        path = "temp/verilator",
+        build_file = "@rules_verilator//verilator/internal:verilator.BUILD"
+)  
+    native.register_toolchains("@rules_verilator//verilator/toolchains:v{}".format("local"))
+
 
 def rules_verilator_toolchains(version = _DEFAULT_VERSION):
     repo_name = "verilator_v{version}".format(version = version)
