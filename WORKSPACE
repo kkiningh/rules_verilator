@@ -10,8 +10,8 @@ load(
 
 rules_verilator_dependencies()
 
-#local_rules_verilator_toolchains(path="temp/verilator")
-rules_verilator_toolchains()
+local_rules_verilator_toolchains(path="temp/verilator")
+#rules_verilator_toolchains()
 load("@rules_m4//m4:m4.bzl", "m4_register_toolchains")
 
 m4_register_toolchains()
