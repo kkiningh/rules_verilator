@@ -39,17 +39,14 @@ def _link_static_library(
         variables = link_variables,
     )
 
-    # Extract the object files
-    object_files = compilation_outputs.object_files(use_pic = False)
-
     # Run linker
     args = actions.args()
     args.add_all(link_flags)
-    args.add_all(object_files)
+    args.add_all(compilation_outputs.objects)
     actions.run(
         outputs = [static_library],
         inputs = depset(
-            items = object_files,
+            items = compilation_outputs.objects,
             transitive = [cc_toolchain.all_files],
         ),
         executable = link_tool,

@@ -32,19 +32,19 @@ genrule(
     outs = [
         "V3Ast__gen_classes.h",
         "V3Ast__gen_impl.h",
-        "V3Ast__gen_interface.h",
         "V3Ast__gen_report.txt",
         "V3Ast__gen_types.h",
         "V3Ast__gen_visitor.h",
+        "V3AstNodes__gen.h",
     ],
     cmd = """
     perl $(location src/astgen) -I$$(dirname $(location src/V3Ast.h)) --classes
     cp V3Ast__gen_classes.h $(@D)
     cp V3Ast__gen_impl.h $(@D)
-    cp V3Ast__gen_interface.h $(@D)
     cp V3Ast__gen_report.txt $(@D)
     cp V3Ast__gen_types.h $(@D)
     cp V3Ast__gen_visitor.h $(@D)
+    cp V3AstNodes__gen.h $(@D)
     """,
 )
 
@@ -135,9 +135,9 @@ cc_library(
     ) + [
         ":V3Ast__gen_classes.h",
         ":V3Ast__gen_impl.h",
-        ":V3Ast__gen_interface.h",
         ":V3Ast__gen_types.h",
         ":V3Ast__gen_visitor.h",
+        ":V3AstNodes__gen.h",
         ":V3Const__gen.cpp",
         ":V3ParseBison.h",
     ],
