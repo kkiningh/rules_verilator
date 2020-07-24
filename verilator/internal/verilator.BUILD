@@ -194,6 +194,7 @@ cc_library(
         "include/verilatedos.h",
         "include/verilated_trace.h",
         "include/verilated_intrinsics.h",
+        "include/verilated_trace_imp.cpp",
     ],
     strip_include_prefix = "include/",
     visibility = ["//visibility:public"],
