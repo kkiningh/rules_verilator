@@ -86,7 +86,7 @@ def _verilator_cc_library(ctx):
     )
 
     # Default Verilator output prefix (e.g. "Vtop")
-    mtop = ctx.label.name if ctx.attr.mtop == None else ctx.attr.mtop
+    mtop = ctx.label.name if not ctx.attr.mtop else ctx.attr.mtop
     prefix = ctx.attr.prefix + ctx.attr.mtop
 
     # Output directories/files
