@@ -39,14 +39,22 @@ def _link_static_library(
         variables = link_variables,
     )
 
+    # Dependency libraries to link.
+    dep_objects = []
+    for context in linking_contexts:
+        for linker_input in context.linker_inputs.to_list():
+            for lib in linker_input.libraries:
+                dep_objects += lib.objects
+
     # Run linker
     args = actions.args()
     args.add_all(link_flags)
     args.add_all(compilation_outputs.objects)
+    args.add_all(dep_objects)
     actions.run(
         outputs = [static_library],
         inputs = depset(
-            items = compilation_outputs.objects,
+            items = compilation_outputs.objects + dep_objects,
             transitive = [cc_toolchain.all_files],
         ),
         executable = link_tool,
