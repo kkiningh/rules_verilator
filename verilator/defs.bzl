@@ -147,6 +147,7 @@ def _verilator_cc_library(ctx):
         srcs = srcs,
         hdrs = hdrs,
         defines = defines,
+        includes = [verilator_output_hpp.path],
         deps = deps,
     )
 

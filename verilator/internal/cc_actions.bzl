@@ -92,7 +92,7 @@ def _link_static_library(
         ),
     )
 
-def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, defines = []):
+def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], defines = []):
     """Compile and link C++ source into a static library"""
     cc_toolchain = find_cpp_toolchain(ctx)
     feature_configuration = cc_common.configure_features(
@@ -109,6 +109,7 @@ def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, defines = []):
         feature_configuration = feature_configuration,
         cc_toolchain = cc_toolchain,
         srcs = srcs,
+        includes = includes,
         defines = defines,
         public_hdrs = hdrs,
         compilation_contexts = compilation_contexts,

@@ -1,4 +1,4 @@
-#include "test/alu/Valu.h/Valu.h"
+#include "Valu.h"
 
 int main() {
   Valu alu;
