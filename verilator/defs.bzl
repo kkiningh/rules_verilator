@@ -90,9 +90,9 @@ def _verilator_cc_library(ctx):
     prefix = ctx.attr.prefix + ctx.attr.mtop
 
     # Output directories/files
-    verilator_output = ctx.actions.declare_directory(prefix + "-gen")
-    verilator_output_cpp = ctx.actions.declare_directory(prefix + ".cpp")
-    verilator_output_hpp = ctx.actions.declare_directory(prefix + ".h")
+    verilator_output = ctx.actions.declare_directory(ctx.label.name + "-gen")
+    verilator_output_cpp = ctx.actions.declare_directory(ctx.label.name + ".cpp")
+    verilator_output_hpp = ctx.actions.declare_directory(ctx.label.name + ".h")
 
     # Run Verilator
     args = ctx.actions.args()
