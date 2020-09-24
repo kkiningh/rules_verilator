@@ -1,26 +1,30 @@
 """Helpers for finding the repository information for a specific version"""
 
 _MIRROR_URLS = [
-    "https://www.veripool.org/ftp/",
+    "https://github.com/verilator/verilator/archive/{}.tar.gz",
 ]
 
-def _urls(filename):
-    return [m + filename for m in _MIRROR_URLS]
+def _urls(version):
+    if version != "master":
+        version = 'v' + version
+    return [m.format(version) for m in _MIRROR_URLS]
 
 def _info(version, sha256):
     return (version, struct(
         sha256 = sha256,
         strip_prefix = "verilator-{}".format(version),
-        urls = _urls("verilator-{}.tgz".format(version)),
+        urls = _urls(version),
     ))
 
 VERSION_INFO = dict([
-    _info("4.034", "54ed7b06ee28b5d21f9d0ee98406d29a508e6124b0d10e54bb32081613ddb80b"),
-    _info("4.036", "307cf2657328b6e529af48c2d7d06b78b98d00d4f0148a484173cf81df15c0eb"),
-    _info("4.038", "fa004493216034ac3e26b21b814441bd5801592f4f269c5a4672e3351d73b515"),
+    _info("4.034", "17a087fc74fd1ab035a43ba38d6f6198150ee11b20077855404ddb4c1620c6b7"),
+    _info("4.036", "856b365ffb803f211960761dee263bb06d893a780bee3cbc8c2575a6c0030da1"),
+    _info("4.038", "0a4a11ae9ca64aa995b1c5895e4367043a72fa4cf89a6781b6877b0f78b27863"),
+    _info("4.100", "031ddd24be38a996e9dc3cf8591fca7cd06b7d21b88e5648ead386d3ec445ba3"),
+    _info("master", ""),  # Hash omitted. Use at your own risk.
 ])
 
-DEFAULT_VERSION = "4.038"
+DEFAULT_VERSION = "4.100"
 
 def version_info(version):
     if version not in VERSION_INFO:

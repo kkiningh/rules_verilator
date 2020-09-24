@@ -16,10 +16,22 @@ def _verilator_repository(ctx):
     ctx.file("WORKSPACE", "workspace(name = {name})\n".format(name = repr(ctx.name)))
     ctx.symlink(ctx.attr._buildfile, "BUILD")
 
-    # Patch the repository so we have the correct settings
-    # TODO: At least on OSX the default settings work. May need to change this
-    # for other platforms.
-    ctx.template("src/config_build.h", "src/config_build.h.in", {}, executable = False)
+    # Generate files usually produced / modified by autotools.
+    replace = {
+        "#define PACKAGE_STRING \"\"": "#define PACKAGE_STRING \"Verilator v{}\"".format(
+                ctx.attr.version),
+    }
+    ctx.template("src/config_build.h", "src/config_build.h.in", replace, executable = False)
+
+    ctx.file("src/config_rev.h",
+             "static const char* const DTVERSION_rev = \"v{}\";\n".format(ctx.attr.version))
+
+    replace = {
+        "@PACKAGE_NAME@": "Verilator",
+        "@PACKAGE_VERSION@": ctx.attr.version,
+    }
+    ctx.template("include/verilated_config.h", "include/verilated_config.h.in", replace,
+                 executable = False)
 
 verilator_repository = repository_rule(
     _verilator_repository,
