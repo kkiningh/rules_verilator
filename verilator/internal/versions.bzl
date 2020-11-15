@@ -21,10 +21,11 @@ VERSION_INFO = dict([
     _info("4.036", "856b365ffb803f211960761dee263bb06d893a780bee3cbc8c2575a6c0030da1"),
     _info("4.038", "0a4a11ae9ca64aa995b1c5895e4367043a72fa4cf89a6781b6877b0f78b27863"),
     _info("4.100", "031ddd24be38a996e9dc3cf8591fca7cd06b7d21b88e5648ead386d3ec445ba3"),
+    _info("4.104", "6d42fa468234461e4a0c3154d5602cdded7b22d57f14be92c27a65d418a4a010"),
     _info("master", ""),  # Hash omitted. Use at your own risk.
 ])
 
-DEFAULT_VERSION = "4.100"
+DEFAULT_VERSION = "4.104"
 
 def version_info(version):
     if version not in VERSION_INFO:
