@@ -34,5 +34,4 @@ cc_binary(
     name = "alu_bin_with_module",
     srcs = ["alu.cpp"],
     deps = [":alu_with_module"],
-    local_defines = ["WITH_MODULE"],
 )
