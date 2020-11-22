@@ -1,3 +1,5 @@
+load("@rules_verilog//verilog:defs.bzl", "VerilogModuleInfo")
+
 load(
     "@rules_verilator//verilator/internal:cc_actions.bzl",
     "cc_compile_and_link_static_library",
@@ -80,14 +82,18 @@ def _verilator_cc_library(ctx):
     verilator_toolchain = ctx.toolchains[_TOOLCHAIN_TYPE].verilator_toolchain
 
     # Gather all the Verilog source files, including transitive dependencies
+    module_srcs = ctx.attr.module[VerilogModuleInfo].files.to_list() if ctx.attr.module else []
     srcs = get_transitive_sources(
-        ctx.files.srcs + ctx.files.hdrs,
+        ctx.files.srcs + ctx.files.hdrs + module_srcs,
         ctx.attr.deps,
     )
 
     # Default Verilator output prefix (e.g. "Vtop")
-    mtop = ctx.label.name if not ctx.attr.mtop else ctx.attr.mtop
-    prefix = ctx.attr.prefix + ctx.attr.mtop
+    if ctx.attr.module:
+      mtop = ctx.attr.module[VerilogModuleInfo].top
+    else:
+      mtop = ctx.label.name if not ctx.attr.mtop else ctx.attr.mtop
+    prefix = ctx.attr.prefix + mtop
 
     # Output directories/files
     verilator_output = ctx.actions.declare_directory(ctx.label.name + "-gen")
@@ -155,20 +161,24 @@ verilator_cc_library = rule(
     _verilator_cc_library,
     attrs = {
         "srcs": attr.label_list(
-            doc = "List of verilog source files",
+            doc = "[Deprecated] List of verilog source files",
             mandatory = False,
             allow_files = [".v", ".sv"],
         ),
         "hdrs": attr.label_list(
-            doc = "List of verilog header files",
+            doc = "[Deprecated] List of verilog header files",
             allow_files = [".v", ".sv", ".vh", ".svh"],
         ),
         "deps": attr.label_list(
-            doc = "List of verilog and C++ dependencies",
+            doc = "[Deprectated] List of verilog dependencies",
         ),
         "mtop": attr.string(
-            doc = "Top level module. Defaults to the rule name if not specified",
+            doc = "[Deprecated] Top level module. Defaults to the rule name if not specified",
             mandatory = False,
+        ),
+        "module": attr.label(
+            doc = "Label of verilog_module to verilate",
+            providers = [VerilogModuleInfo],
         ),
         "trace": attr.bool(
             doc = "Enable tracing for Verilator",
