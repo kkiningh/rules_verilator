@@ -56,22 +56,27 @@ cc_binary(
 )
 ```
 
-Verilog libraries can also be specifed as dependencies
+The details of a verilog module (sources, top name, etc.) can also be specified by a `verilog_module`
+which can be reused in other rules.
 
 ```python
-load("@rules_verilator//verilator:defs.bzl", "sv_library", "verilator_cc_library")
+load("@rules_verilog//verilog:defs.bzl", "verilog_module")
 
-sv_library(
-    name = "alu_lib",
+load("@rules_verilator//verilator:defs.bzl", "verilator_cc_library")
+
+verilog_module(
+    name = "alu_module",
+    top = "alu",
     srcs = ["alu.sv"],
 )
 
 verilator_cc_library(
     name = "alu",
-    mtop = "alu",
-    deps = [":alu_lib"],
+    module = ":alu_module",
 )
 ```
+
+See [test/alu/BUILD](test/alu/BUILD) for working examples.
 
 ## License
 
