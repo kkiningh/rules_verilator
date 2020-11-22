@@ -62,6 +62,13 @@ def rules_verilator_dependencies(version = _DEFAULT_VERSION):
         urls = ["https://github.com/jmillikin/rules_bison/releases/download/v0.1/rules_bison-v0.1.tar.xz"],
         sha256 = "5c57552a129b0d8eeb9252341ee975ec2720c35baf2f0d154756310c1ff572a0",
     )
+    _maybe(
+        http_archive,
+        name = "rules_verilog",
+        urls = ["https://github.com/agoessling/rules_verilog/archive/v0.1.0.zip"],
+        strip_prefix = "rules_verilog-0.1.0",
+        sha256 = "401b3f591f296f6fd2f6656f01afc1f93111e10b81b9a9d291f9c04b3e4a3e8b",
+    )
 
 def rules_verilator_toolchains(version = _DEFAULT_VERSION):
     repo_name = "verilator_v{version}".format(version = version)
