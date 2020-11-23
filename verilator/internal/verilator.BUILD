@@ -2,9 +2,6 @@ package(default_visibility = ["//visibility:private"])
 
 licenses(["notice"])
 
-load("@rules_verilator//verilator/internal:flex_lexer_h.bzl", "flex_lexer_h")
-flex_lexer_h(name = "flex_lexer_h")
-
 exports_files([
     "Artistic",
     "COPYING",
@@ -70,8 +67,8 @@ genrule(
     outs = ["V3Lexer_pregen.yy.cpp"],
     cmd = "M4=$(M4) $(FLEX) -d --outfile=$(@) $(<)",
     toolchains = [
-        "@rules_flex//flex:toolchain",
-        "@rules_m4//m4:toolchain",
+        "@rules_flex//flex:current_flex_toolchain",
+        "@rules_m4//m4:current_m4_toolchain"
     ],
 )
 
@@ -89,8 +86,8 @@ genrule(
     outs = ["V3PreLex_pregen.yy.cpp"],
     cmd = "M4=$(M4) $(FLEX) -d --outfile=$(@) $(<)",
     toolchains = [
-        "@rules_flex//flex:toolchain",
-        "@rules_m4//m4:toolchain",
+        "@rules_flex//flex:current_flex_toolchain",
+        "@rules_m4//m4:current_m4_toolchain"
     ],
 )
 
@@ -112,8 +109,8 @@ genrule(
     cmd = "M4=$(M4) ./$(location :bisonpre) --yacc $(BISON) -d -v -o $(location V3ParseBison.c) $(<)",
     tools = [":bisonpre"],
     toolchains = [
-        "@rules_bison//bison:toolchain",
-        "@rules_m4//m4:toolchain",
+        "@rules_bison//bison:current_bison_toolchain",
+        "@rules_m4//m4:current_m4_toolchain"
     ],
 )
 
@@ -163,7 +160,7 @@ cc_library(
         ":V3ParseBison.c",
     ],
     deps = [
-        ":flex_lexer_h",
+        "@rules_flex//flex:current_flex_toolchain",
         ":verilatedos",
     ],
 )
