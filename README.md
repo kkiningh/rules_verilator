@@ -32,11 +32,15 @@ load("@rules_bison//bison:bison.bzl", "bison_register_toolchains")
 bison_register_toolchains()
 ```
 
-The rules also depend on the experimental C++ skylark API, which can be enabled by adding the following to your project's `.bazelrc`
+### Note for Bazel versions prior to 1.2
+
+If you are building with Bazel pre [version 1.2](https://blog.bazel.build/2019/11/20/bazel-1.2.0.html)), the following flag must be added to your project's `.bazelrc`.
 
 ```
 build --experimental_cc_skylark_api_enabled_packages=@rules_verilator//verilator/internal
 ```
+
+This enables the Starlark C++ API, which the rules depend on.
 
 ## Build rules
 
