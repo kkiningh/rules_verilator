@@ -32,15 +32,10 @@ load("@rules_bison//bison:bison.bzl", "bison_register_toolchains")
 bison_register_toolchains()
 ```
 
-### Flags for Bazel versions prior to 1.2
+### Supported Bazel Versions
 
-If you are building with Bazel verions prior to [version 1.2](https://blog.bazel.build/2019/11/20/bazel-1.2.0.html), the following flag must be added to your project's `.bazelrc`.
-
-```
-build --experimental_cc_skylark_api_enabled_packages=@rules_verilator//verilator/internal
-```
-
-This enables the Starlark C++ API, which the rules depend on.
+These rules are under active development and the minimum supported Bazel version may change.
+Currently, the `master` branch requires [Bazel >= 3.0.0](https://blog.bazel.build/2020/03/31/bazel-3.0.html).
 
 ## Build rules
 
