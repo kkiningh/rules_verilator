@@ -40,6 +40,8 @@ def _link_static_library(
     )
 
     # Dependency libraries to link.
+    # TODO: Not clear how to remove to_list here, see
+    # https://github.com/bazelbuild/bazel/issues/8118#issuecomment-487175926
     dep_objects = []
     for context in linking_contexts:
         for linker_input in context.linker_inputs.to_list():

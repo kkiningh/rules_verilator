@@ -1,5 +1,4 @@
 load("@rules_verilog//verilog:defs.bzl", "VerilogModuleInfo")
-
 load(
     "@rules_verilator//verilator/internal:cc_actions.bzl",
     "cc_compile_and_link_static_library",
@@ -81,18 +80,25 @@ def _verilator_cc_library(ctx):
     # Get the verilator toolchain
     verilator_toolchain = ctx.toolchains[_TOOLCHAIN_TYPE].verilator_toolchain
 
-    # Gather all the Verilog source files, including transitive dependencies
-    module_srcs = ctx.attr.module[VerilogModuleInfo].files.to_list() if ctx.attr.module else []
-    srcs = get_transitive_sources(
-        ctx.files.srcs + ctx.files.hdrs + module_srcs,
-        ctx.attr.deps,
-    )
+    # Get the depset correspond to all the Verilog source files
+    srcs = ctx.attr.module[VerilogModuleInfo].files if ctx.attr.module else depset()
+
+    # Merge with the files from srcs, hdrs, and deps, plus transitive dependencies
+    # Code taken from https://github.com/bazelbuild/bazel/issues/5817#issuecomment-496910826
+    # TODO: This call can be removed when srcs/hdrs/deps are removed
+    srcs = depset(transitive = [
+        srcs,
+        get_transitive_sources(
+            srcs = ctx.files.srcs + ctx.files.hdrs,
+            deps = ctx.attr.deps,
+        ),
+    ])
 
     # Default Verilator output prefix (e.g. "Vtop")
     if ctx.attr.module:
-      mtop = ctx.attr.module[VerilogModuleInfo].top
+        mtop = ctx.attr.module[VerilogModuleInfo].top
     else:
-      mtop = ctx.label.name if not ctx.attr.mtop else ctx.attr.mtop
+        mtop = ctx.label.name if not ctx.attr.mtop else ctx.attr.mtop
     prefix = ctx.attr.prefix + mtop
 
     # Output directories/files
