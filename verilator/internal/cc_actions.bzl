@@ -7,12 +7,13 @@ load(
 )
 
 def _link_static_library(
+        owner,
         name,
         actions,
         feature_configuration,
         compilation_outputs,
         cc_toolchain,
-        user_link_flags = [],
+        user_link_flags = None,
         linking_contexts = []):
     """Link object files into a static library"""
     static_library = actions.declare_file("lib{name}.a".format(name = name))
@@ -56,7 +57,7 @@ def _link_static_library(
     actions.run(
         outputs = [static_library],
         inputs = depset(
-            items = compilation_outputs.objects + dep_objects,
+            direct = compilation_outputs.objects + dep_objects,
             transitive = [cc_toolchain.all_files],
         ),
         executable = link_tool,
@@ -67,16 +68,20 @@ def _link_static_library(
     )
 
     # Build the linking info provider
-    linking_context = cc_common.create_linking_context(
-        libraries_to_link = [
+    linker_input = cc_common.create_linker_input(
+        owner = owner,
+        libraries = depset(direct = [
             cc_common.create_library_to_link(
                 actions = actions,
                 feature_configuration = feature_configuration,
                 cc_toolchain = cc_toolchain,
                 static_library = static_library,
             ),
-        ],
+        ]),
         user_link_flags = user_link_flags,
+    )
+    linking_context = cc_common.create_linking_context(
+        linker_inputs = depset(direct = [linker_input]),
     )
 
     # Merge linking info for downstream rules
@@ -122,6 +127,7 @@ def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], def
     # This should be replaced by cc_common.link() when api is fixed
     linking_contexts = [dep[CcInfo].linking_context for dep in deps]
     linking_info = _link_static_library(
+        owner = ctx.label,
         name = ctx.label.name,
         actions = ctx.actions,
         compilation_outputs = cc_compilation_outputs,
