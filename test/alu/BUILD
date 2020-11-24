@@ -1,5 +1,4 @@
 load("@rules_verilog//verilog:defs.bzl", "verilog_module")
-
 load("@rules_verilator//verilator:defs.bzl", "sv_library", "verilator_cc_library")
 
 sv_library(
@@ -21,8 +20,8 @@ cc_binary(
 
 verilog_module(
     name = "alu_module",
-    top = "alu",
     srcs = ["alu.sv"],
+    top = "alu",
 )
 
 verilator_cc_library(

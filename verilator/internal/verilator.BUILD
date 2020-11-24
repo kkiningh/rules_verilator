@@ -68,7 +68,7 @@ genrule(
     cmd = "M4=$(M4) $(FLEX) -d --outfile=$(@) $(<)",
     toolchains = [
         "@rules_flex//flex:current_flex_toolchain",
-        "@rules_m4//m4:current_m4_toolchain"
+        "@rules_m4//m4:current_m4_toolchain",
     ],
 )
 
@@ -87,7 +87,7 @@ genrule(
     cmd = "M4=$(M4) $(FLEX) -d --outfile=$(@) $(<)",
     toolchains = [
         "@rules_flex//flex:current_flex_toolchain",
-        "@rules_m4//m4:current_m4_toolchain"
+        "@rules_m4//m4:current_m4_toolchain",
     ],
 )
 
@@ -107,11 +107,11 @@ genrule(
         "V3ParseBison.h",
     ],
     cmd = "M4=$(M4) ./$(location :bisonpre) --yacc $(BISON) -d -v -o $(location V3ParseBison.c) $(<)",
-    tools = [":bisonpre"],
     toolchains = [
         "@rules_bison//bison:current_bison_toolchain",
-        "@rules_m4//m4:current_m4_toolchain"
+        "@rules_m4//m4:current_m4_toolchain",
     ],
+    tools = [":bisonpre"],
 )
 
 cc_library(
@@ -160,8 +160,8 @@ cc_library(
         ":V3ParseBison.c",
     ],
     deps = [
-        "@rules_flex//flex:current_flex_toolchain",
         ":verilatedos",
+        "@rules_flex//flex:current_flex_toolchain",
     ],
 )
 
@@ -180,27 +180,27 @@ cc_library(
         "include/verilated_vcd_c.cpp",
     ],
     hdrs = [
-        "include/verilated_config.h",
         "include/verilated.h",
-        "include/verilated_sc.h",
+        "include/verilated_config.h",
         "include/verilated_dpi.h",
         "include/verilated_fst_c.h",
         "include/verilated_heavy.h",
+        "include/verilated_intrinsics.h",
+        "include/verilated_sc.h",
         "include/verilated_sym_props.h",
+        "include/verilated_trace.h",
+        "include/verilated_trace_imp.cpp",
         "include/verilated_vcd_c.h",
         "include/verilatedos.h",
-        "include/verilated_trace.h",
-        "include/verilated_intrinsics.h",
-        "include/verilated_trace_imp.cpp",
     ],
+    includes = ["include"],
     strip_include_prefix = "include/",
-    visibility = ["//visibility:public"],
     textual_hdrs = [
         "include/gtkwave/fastlz.c",
         "include/gtkwave/fstapi.c",
         "include/gtkwave/lz4.c",
     ],
-    includes = ["include"],
+    visibility = ["//visibility:public"],
 )
 
 cc_library(

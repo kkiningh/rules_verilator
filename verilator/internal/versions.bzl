@@ -6,7 +6,7 @@ _MIRROR_URLS = [
 
 def _urls(version):
     if version != "master":
-        version = 'v' + version
+        version = "v" + version
     return [m.format(version) for m in _MIRROR_URLS]
 
 def _info(version, sha256):
