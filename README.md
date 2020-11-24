@@ -32,9 +32,9 @@ load("@rules_bison//bison:bison.bzl", "bison_register_toolchains")
 bison_register_toolchains()
 ```
 
-### Note for Bazel versions prior to 1.2
+### Flags for Bazel versions prior to 1.2
 
-If you are building with Bazel pre [version 1.2](https://blog.bazel.build/2019/11/20/bazel-1.2.0.html)), the following flag must be added to your project's `.bazelrc`.
+If you are building with Bazel verions prior to [version 1.2](https://blog.bazel.build/2019/11/20/bazel-1.2.0.html), the following flag must be added to your project's `.bazelrc`.
 
 ```
 build --experimental_cc_skylark_api_enabled_packages=@rules_verilator//verilator/internal
