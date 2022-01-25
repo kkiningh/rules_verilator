@@ -32,16 +32,18 @@ genrule(
         "V3Ast__gen_report.txt",
         "V3Ast__gen_types.h",
         "V3Ast__gen_visitor.h",
-        "V3AstNodes__gen.h",
+        "V3Ast__gen_yystype.h",
+        "V3AstNodes__gen_macros.h",
     ],
     cmd = """
-    perl $(location src/astgen) -I$$(dirname $(location src/V3Ast.h)) --classes
+    python3 $(location src/astgen) -I$$(dirname $(location src/V3Ast.h)) --classes
     cp V3Ast__gen_classes.h $(@D)
     cp V3Ast__gen_impl.h $(@D)
     cp V3Ast__gen_report.txt $(@D)
     cp V3Ast__gen_types.h $(@D)
     cp V3Ast__gen_visitor.h $(@D)
-    cp V3AstNodes__gen.h $(@D)
+    cp V3Ast__gen_yystype.h $(@D)
+    cp V3AstNodes__gen_macros.h $(@D)
     """,
 )
 
@@ -56,7 +58,7 @@ genrule(
     ],
     outs = ["V3Const__gen.cpp"],
     cmd = """
-    perl $(location src/astgen) -I$$(dirname $(location src/V3Const.cpp)) V3Const.cpp
+    python3 $(location src/astgen) -I$$(dirname $(location src/V3Const.cpp)) V3Const.cpp
     cp V3Const__gen.cpp $(@D)
     """,
 )
@@ -120,6 +122,13 @@ cc_library(
     strip_include_prefix = "include/",
 )
 
+# Helper lib to break dependency between V3 and libverilated
+cc_library(
+    name = "verilated_trace_defs",
+    hdrs = ["include/verilated_trace_defs.h"],
+    strip_include_prefix = "include/",
+)
+
 # TODO(kkiningh): Verilator also supports multithreading, should we enable it?
 cc_library(
     name = "verilator_libV3",
@@ -134,7 +143,8 @@ cc_library(
         ":V3Ast__gen_impl.h",
         ":V3Ast__gen_types.h",
         ":V3Ast__gen_visitor.h",
-        ":V3AstNodes__gen.h",
+        ":V3AstNodes__gen_macros.h",
+        ":V3Ast__gen_yystype.h",
         ":V3Const__gen.cpp",
         ":V3ParseBison.h",
     ],
@@ -160,6 +170,7 @@ cc_library(
         ":V3ParseBison.c",
     ],
     deps = [
+        ":verilated_trace_defs", # Needed for V3TraceDecl.cpp
         ":verilatedos",
         "@rules_flex//flex:current_flex_toolchain",
     ],
@@ -189,9 +200,13 @@ cc_library(
         "include/verilated_sc.h",
         "include/verilated_sym_props.h",
         "include/verilated_trace.h",
+        "include/verilated_trace_defs.h",
+        # Needed for verilated_vcd_c.cpp and verilated_fst_c.cpp
         "include/verilated_trace_imp.cpp",
         "include/verilated_vcd_c.h",
         "include/verilatedos.h",
+        "include/verilated_types.h",
+        "include/verilated_funcs.h",
     ],
     includes = ["include"],
     strip_include_prefix = "include/",
