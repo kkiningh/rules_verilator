@@ -1,0 +1,48 @@
+name: Bazel Tests
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.cc'
+      - '**.h'
+      - '**.cpp'
+      - '**.hpp'
+      - '**.sv'
+      - '**.v'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.cc'
+      - '**.h'
+      - '**.cpp'
+      - '**.hpp'
+      - '**.sv'
+      - '**.v'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout our repo.
+      - uses: actions/checkout@v2
+      # Download bazel
+      - uses: bazelbuild/setup-bazelisk@v1
+      # Cache previous bazel builds
+      - name: Cache bazel
+        uses: actions/cache@v2
+        env:
+          cache-name: bazel-cache
+        with:
+          path: |
+            ~/.cache/bazelisk
+            ~/.cache/bazel
+          key: ${{ runner.os }}-${{ env.cache-name }}
+      # Build everything
+      - name: Build the code
+        run: bazel build //...
+      # Test everything
+      - name: Test the code
+        run: bazel test //...

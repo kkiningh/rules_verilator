@@ -1,5 +1,7 @@
 # Bazel build rules for Verilator
 
+[![Bazel Tests](../../actions/workflows/ci_bazel.yml/badge.svg)](../../actions/workflows/ci_bazel.yml)
+
 ## Overview
 
 Add the following to your `WORKSPACE` file
