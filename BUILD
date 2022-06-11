@@ -1,1 +1,1 @@
-exports_file(["LICENSE"])
+exports_files(["LICENSE"])
