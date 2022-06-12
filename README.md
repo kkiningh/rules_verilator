@@ -37,7 +37,7 @@ bison_register_toolchains()
 ### Supported Bazel Versions
 
 These rules are under active development and the minimum supported Bazel version may change.
-Currently, the `master` branch requires [Bazel >= 4.0.0](https://blog.bazel.build/2021/01/19/bazel-4-0.html).
+Currently, the `master` branch requires [Bazel >= 5.2.0](https://blog.bazel.build/2021/01/19/bazel-5-2.html).
 
 ## Build rules
 
