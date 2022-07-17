@@ -216,6 +216,8 @@ cc_library(
         "include/gtkwave/lz4.c",
     ],
     visibility = ["//visibility:public"],
+    # TODO: Remove these once upstream fixes these warnings
+    copts = ["-Wno-unused-const-variable"],
 )
 
 cc_library(
