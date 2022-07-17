@@ -216,6 +216,7 @@ cc_library(
         "include/gtkwave/lz4.c",
     ],
     visibility = ["//visibility:public"],
+    copts = ["-Wno-unused-variable"],
 )
 
 cc_library(
