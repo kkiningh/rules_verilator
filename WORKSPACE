@@ -9,8 +9,15 @@ load(
 
 rules_verilator_dependencies()
 
-rules_verilator_toolchains()
+# This defines a toolchain for all supported versions to the repo for testing
+# purposes. Most project should simply use the default toochain, i.e.:
+#
+# rules_verilator_toolchains()
+load("@rules_verilator//verilator/internal:versions.bzl", "VERSION_INFO")
 
+[rules_verilator_toolchains(version) for version in VERSION_INFO.keys()]
+
+# Register dependency toolchains
 load("@rules_m4//m4:m4.bzl", "m4_register_toolchains")
 
 m4_register_toolchains()

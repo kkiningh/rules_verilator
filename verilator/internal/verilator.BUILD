@@ -202,7 +202,7 @@ cc_library(
         "include/verilated_trace.h",
         "include/verilated_trace_defs.h",
         # Needed for verilated_vcd_c.cpp and verilated_fst_c.cpp
-        "include/verilated_trace_imp.cpp",
+        "include/verilated_trace_imp.h",
         "include/verilated_vcd_c.h",
         "include/verilatedos.h",
         "include/verilated_types.h",

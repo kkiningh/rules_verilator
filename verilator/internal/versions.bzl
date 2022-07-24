@@ -17,11 +17,11 @@ def _info(version, sha256):
     ))
 
 VERSION_INFO = dict([
-    _info("4.218", "ef7b1e6ddb715ddb3cc998fcbefc7150cfa2efc5118cf43ddb594bf41ea41cc7"),
+    _info("4.224", "010ff2b5c76d4dbc2ed4a3278a5599ba35c8ed4c05690e57296d6b281591367b"),
     _info("master", ""),  # Hash omitted. Use at your own risk.
 ])
 
-DEFAULT_VERSION = "4.218"
+DEFAULT_VERSION = "4.224"
 
 def version_info(version):
     if version not in VERSION_INFO:
