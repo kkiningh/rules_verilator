@@ -26,7 +26,7 @@ def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], def
     )
 
     linking_contexts = [dep[CcInfo].linking_context for dep in deps]
-    linking_context, linking_outputs = cc_common.create_linking_context_from_compilation_outputs(
+    linking_context, linking_output = cc_common.create_linking_context_from_compilation_outputs(
         actions = ctx.actions,
         feature_configuration = feature_configuration,
         cc_toolchain = cc_toolchain,
@@ -35,8 +35,14 @@ def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], def
         name = ctx.label.name,
     )
 
+    output_files = []
+    if linking_output.library_to_link.static_library != None:
+        output_files.append(linking_output.library_to_link.static_library)
+    if linking_output.library_to_link.dynamic_library != None:
+        output_files.append(linking_output.library_to_link.dynamic_library)
+
     return [
-        DefaultInfo(files = depset([linking_outputs.library_to_link.static_library])),
+        DefaultInfo(files = depset(output_files)),
         CcInfo(
             compilation_context = compilation_context,
             linking_context = linking_context,
