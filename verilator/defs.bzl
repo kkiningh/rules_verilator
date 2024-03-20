@@ -153,7 +153,6 @@ def _verilator_cc_library(ctx):
     deps = list(verilator_toolchain.libs)
     #if ctx.attr.sysc:
     #    deps.append(ctx.attr._systemc)
-
     return cc_compile_and_link_static_library(
         ctx,
         srcs = srcs,
@@ -161,6 +160,8 @@ def _verilator_cc_library(ctx):
         defines = defines,
         includes = [verilator_output_hpp.path],
         deps = deps,
+        user_compile_flags=ctx.attr.user_compile_flags,
+        user_link_flags=ctx.attr.user_link_flags,
     )
 
 verilator_cc_library = rule(
@@ -201,6 +202,14 @@ verilator_cc_library = rule(
         "vopts": attr.string_list(
             doc = "Additional command line options to pass to Verilator",
             default = ["-Wall"],
+        ),
+        "user_compile_flags": attr.string_list(
+            doc = "Additional command line options to pass to C++ compiler",
+            default = [],
+        ),
+        "user_link_flags": attr.string_list(
+            doc = "Additional command line options to pass to Linker",
+            default = [],
         ),
         "_cc_toolchain": attr.label(
             default = Label("@bazel_tools//tools/cpp:current_cc_toolchain"),
