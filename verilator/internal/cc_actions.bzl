@@ -2,7 +2,8 @@
 
 load("@bazel_tools//tools/cpp:toolchain_utils.bzl", "find_cpp_toolchain")
 
-def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], defines = []):
+def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], defines = [],
+    user_compile_flags = [], user_link_flags = []):
     """Compile and link C++ source into a static library"""
     cc_toolchain = find_cpp_toolchain(ctx)
     feature_configuration = cc_common.configure_features(
@@ -23,6 +24,7 @@ def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], def
         defines = defines,
         public_hdrs = hdrs,
         compilation_contexts = compilation_contexts,
+        user_compile_flags = user_compile_flags,
     )
 
     linking_contexts = [dep[CcInfo].linking_context for dep in deps]
@@ -33,6 +35,7 @@ def cc_compile_and_link_static_library(ctx, srcs, hdrs, deps, includes = [], def
         compilation_outputs = compilation_outputs,
         linking_contexts = linking_contexts,
         name = ctx.label.name,
+        user_link_flags = user_link_flags,
     )
 
     output_files = []

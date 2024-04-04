@@ -217,7 +217,11 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     # TODO: Remove these once upstream fixes these warnings
-    copts = ["-Wno-unused-const-variable"],
+    copts = [
+        "-Wno-unused-const-variable",
+        "-Wno-deprecated-declarations",
+        "-Wno-unused-but-set-variable",
+    ],
 )
 
 cc_library(
